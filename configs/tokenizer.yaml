@@ -1,0 +1,37 @@
+experiment: tokenizer
+modality: atmosphere
+seed: 42
+data_config: ${PROJECT_ROOT}/configs/data.yaml
+model:
+  frames: 1
+  channels: 69
+  widths: [384, 512, 768]
+  spatial_factors: [[1, 2], [2, 1], [1, 1]]
+  stage_blocks: 2
+  mid_blocks: 5
+  temporal_mix: false
+  temporal_representation: raw
+  learnable_slots: false
+  quantizer:
+    type: multiscale_fsq
+    levels: [8, 8, 8, 5, 5, 5]
+    slots: 1
+    scale_shapes: [[15, 30], [30, 60], [60, 120]]
+    codebooks_per_scale: [4, 4, 4]
+    scale_gains: [1.0, 1.0, 1.0]
+loss:
+  reconstruction: latitude_weighted_mse
+  vq_weight: 0.0
+train:
+  epochs: 50
+  batch_size: 4
+  global_batch: 32
+  grad_accumulation: 1
+  workers: 4
+  learning_rate: 0.0002
+  min_learning_rate: 0.00001
+  warmup_steps: 200
+  weight_decay: 0.01
+  grad_clip: 1.0
+  amp: bf16
+  output_dir: ${PROJECT_ROOT}/runs/tokenizer

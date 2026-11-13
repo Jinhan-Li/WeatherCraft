@@ -1,0 +1,193 @@
+{
+  "land": {
+    "updates": 100,
+    "rounds": 50,
+    "origins_per_round": 8,
+    "members": 8,
+    "horizon": 15,
+    "validation_every": 8,
+    "seed": 20261104,
+    "train_years": [
+      2013,
+      2018
+    ],
+    "validation_year": 2019,
+    "test_years": [
+      2020,
+      2021,
+      2022
+    ],
+    "lr": 1e-06,
+    "betas": [
+      0.9,
+      0.95
+    ],
+    "weight_decay": 0,
+    "gradient_clip": 1,
+    "policy_clip": 0.2,
+    "kl_beta": 0.02,
+    "advantage_floor": 0.0001,
+    "reuse": 2,
+    "tree_splits": [
+      1,
+      4,
+      7
+    ],
+    "tree_scale_alpha": 0.5,
+    "reward": "mean(warm_CSI,cold_CSI), pooled coslat-land TP/union leads3..11, q90/q10 >=3 days",
+    "threshold_years": [
+      1981,
+      2010
+    ],
+    "backend": "gloo",
+    "training_batch": 2,
+    "evaluation_batch": 8,
+    "torch_version": "2.6.0+cu124"
+  },
+  "ocean": {
+    "updates": 100,
+    "rounds": 50,
+    "origins_per_round": 8,
+    "members": 8,
+    "horizon": 10,
+    "validation_every": 8,
+    "seed": 20261104,
+    "train_years": [
+      2013,
+      2018
+    ],
+    "validation_year": 2019,
+    "test_years": [
+      2020,
+      2021,
+      2022
+    ],
+    "lr": 1e-06,
+    "betas": [
+      0.9,
+      0.95
+    ],
+    "weight_decay": 0,
+    "gradient_clip": 1,
+    "policy_clip": 0.2,
+    "kl_beta": 0.02,
+    "advantage_floor": 0.0001,
+    "reuse": 2,
+    "tree_splits": [
+      1,
+      4,
+      7
+    ],
+    "tree_scale_alpha": 0.5,
+    "reward": "q90 daily exceedance area-pooled CSI leads3..10",
+    "threshold_years": [
+      1993,
+      2018
+    ],
+    "backend": "gloo",
+    "training_batch": 2,
+    "evaluation_batch": 8,
+    "torch_version": "2.6.0+cu124",
+    "sensitivity_years": [
+      1993,
+      2012
+    ],
+    "strict_event_leads": [
+      3,
+      6
+    ],
+    "limited_event_leads": [
+      3,
+      10
+    ],
+    "ocean_step_batch": 1,
+    "forcing": "daily physical u10 v10 t2m msl; coordinate bilinear",
+    "climate": "frozen author 365-day mean; Feb29 adjacent average"
+  },
+  "model": {
+    "depth": 16,
+    "model_dim": 1536,
+    "num_heads": 24,
+    "mlp_ratio": 4.0,
+    "dropout": 0.0,
+    "drop_path": 0.1,
+    "label_smoothing": 0.0,
+    "activation_checkpointing": true
+  },
+  "tokenizer": {
+    "modality": "atmosphere",
+    "data": {
+      "temporal_aggregation": "daily_mean",
+      "expected_channels": 69,
+      "crop_latitude": 120
+    },
+    "model": {
+      "frames": 1,
+      "channels": 69,
+      "widths": [
+        384,
+        512,
+        768
+      ],
+      "spatial_factors": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "stage_blocks": 2,
+      "mid_blocks": 5,
+      "temporal_mix": false,
+      "temporal_representation": "raw",
+      "learnable_slots": false,
+      "quantizer": {
+        "type": "multiscale_fsq",
+        "levels": [
+          8,
+          8,
+          8,
+          5,
+          5,
+          5
+        ],
+        "slots": 1,
+        "scale_shapes": [
+          [
+            15,
+            30
+          ],
+          [
+            30,
+            60
+          ],
+          [
+            60,
+            120
+          ]
+        ],
+        "codebooks_per_scale": [
+          4,
+          4,
+          4
+        ],
+        "scale_gains": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "loss": {
+      "reconstruction": "latitude_weighted_mse",
+      "vq_weight": 0.0
+    }
+  }
+}

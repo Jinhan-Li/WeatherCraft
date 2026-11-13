@@ -1,0 +1,45 @@
+experiment: one_day
+modality: atmosphere
+seed: 42
+data_config: ${PROJECT_ROOT}/configs/data.yaml
+tokenizer_config: ${PROJECT_ROOT}/configs/tokenizer.yaml
+tokenizer_checkpoint: ${PROJECT_ROOT}/checkpoints/tokenizer.pt
+checkpoint: ${PROJECT_ROOT}/checkpoints/dynamics.pt
+token_cache: ${PROJECT_ROOT}/cache/tokens
+model:
+  depth: 16
+  model_dim: 1536
+  num_heads: 24
+  mlp_ratio: 4.0
+  dropout: 0.0
+  drop_path: 0.1
+  label_smoothing: 0.0
+  activation_checkpointing: true
+evaluation:
+  leads:
+  - 1
+  - 2
+  - 3
+  - 5
+  - 10
+  - 15
+  ensemble_members: 8
+  temperature: 1.0
+  top_k: 0
+  kv_cache: false
+  seed: 20261025
+  output_dir: ${PROJECT_ROOT}/runs/evaluation
+posttraining:
+  lead_days: 1
+  updates: 500
+  learning_rate: 1.0e-06
+  relaxation_tau: 1.0
+  gradient_accumulation: 4
+  checkpoint_every: 10
+  validation_leads:
+  - 1
+  selection_steps:
+  - 100
+  - 250
+  - 500
+output_dir: ${PROJECT_ROOT}/runs/crps/one_day

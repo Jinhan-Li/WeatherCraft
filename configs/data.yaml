@@ -1,0 +1,15 @@
+data:
+  path: ${ERA5_ROOT}/daily/fields.npy
+  times_path: ${ERA5_ROOT}/daily/times.npy
+  metadata_path: ${ERA5_ROOT}/daily/metadata.json
+  latitude_path: ${ERA5_ROOT}/latitude.npy
+  longitude_path: ${ERA5_ROOT}/longitude.npy
+  stats_path: ${ERA5_ROOT}/era5_69_stats.pt
+  train_stats_path: ${PROJECT_ROOT}/configs/normalization.json
+  temporal_aggregation: daily_mean
+  expected_channels: 69
+  crop_latitude: 120
+  splits:
+    train: ['1979-01-01', '2018-12-31']
+    valid: ['2019-01-01', '2019-12-31']
+    test: ['2020-01-01', '2022-12-31']

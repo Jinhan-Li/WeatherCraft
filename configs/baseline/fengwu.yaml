@@ -1,0 +1,36 @@
+experiment: fengwu
+seed: 42
+initialization: random_from_scratch
+upstream_commit: d494e770e4a76bc3fbc95240fef916ab5ef99423
+model:
+  name: fengwu
+  history_days: 2
+  img_size:
+  - 120
+  - 240
+  activation_checkpointing: false
+train:
+  epochs: 50
+  batch_size: 4
+  grad_accumulation: 1
+  global_batch: 32
+  workers: 4
+  learning_rate: 0.0001
+  min_learning_rate: 1.0e-05
+  warmup_steps: 1000
+  weight_decay: 0.05
+  grad_clip: 1.0
+  amp: bf16
+  loss: normalized_cosine_latitude_mse
+  selection: lowest_single_step_valid_mse
+  output_dir: ${PROJECT_ROOT}/runs/baseline/fengwu/train
+evaluation:
+  leads:
+  - 1
+  - 3
+  - 5
+  - 10
+  - 15
+  starts: all_complete_15day_test_windows
+  output_dir: ${PROJECT_ROOT}/runs/baseline/fengwu/evaluation
+data_config: ${PROJECT_ROOT}/configs/data.yaml
