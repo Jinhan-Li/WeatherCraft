@@ -4,8 +4,23 @@ Discrete weather tokens for autoregressive ensemble forecasting and post-trainin
 
 This repository contains the multiscale tokenizer, weather dynamics model,
 daily-data baseline adaptations, two-stage fair-CRPS training, and land/ocean
-Vanilla and Tree GRPO. Datasets, checkpoints, figures, and experimental outputs
+Vanilla and Tree GRPO. Datasets, checkpoints, and experimental outputs
 are not included.
+
+## Model overview
+
+![WeatherCraft architecture](docs/assets/architecture.png)
+
+*Figure 2 from the paper: multiscale tokenization, causal weather dynamics,
+latent rollout, and task-aligned post-training.*
+
+## One-year rollout
+
+[![First two months of the WeatherCraft annual rollout](docs/assets/annual_rollout.gif)](docs/assets/annual_rollout.mp4)
+
+*Daily 2 m temperature over a 365-day rollout: ERA5, climatology (1979–2018),
+WeatherCraft single member, and eight-member mean. The GIF shows all 59 consecutive daily frames from January 2 to February 29, 2020; the
+[MP4 video](docs/assets/annual_rollout.mp4) contains all 365 daily frames.*
 
 ## Setup
 
@@ -50,9 +65,7 @@ weathercraft/   tokenizer, dynamics, data, inference, evaluation, post-training
 baseline/       deterministic models, GenCast, Tyche
 configs/        model and training configurations
 docs/           data and usage notes
-tests/          small CPU correctness checks
 ```
 
-Run `python -m tests.test_core` for CPU forward/backward and metric checks.
 Third-party notices are retained beside the corresponding source; see
 [Sources](SOURCES.md).
